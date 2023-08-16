@@ -1,0 +1,12 @@
+task_three.example:
+  path: '/node/{node}/details'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\task_three\Controller\TaskThreeController::content'
+  requirements:
+    _permission: 'Static permission'
+  options:
+    _admin_route: TRUE
+    parameters:
+      node:
+        type: entity:node

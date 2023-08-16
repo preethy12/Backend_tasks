@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for prepopulate_title module.
+ */
+
+/**
+ * This is hook_form_alter().
+ */
+function prepopulate_title_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'node_article_form') {
+    $config = \Drupal::config('prepopulate_title.settings');
+    $title = $config->get('title');
+    $advanced = $config->get('advanced');
+
+    $form['title']['widget'][0]['value']['#default_value'] = $title;
+    if ($advanced) {
+      $form['field_advanced']['widget']['value']['#default_value'] = TRUE;
+    }
+    $taxonomy_ref = $config->get('tags_reference');
+    $vocabulary = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($taxonomy_ref);
+    $form['field_tax']['widget'][0]['target_id']['#default_value'] = $vocabulary;
+  }
+}

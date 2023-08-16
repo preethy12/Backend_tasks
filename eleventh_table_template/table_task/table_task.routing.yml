@@ -1,0 +1,15 @@
+table_task.example:
+  path: '/table-task/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\table_task\Controller\TableTaskController::build'
+  requirements:
+    _permission: 'access content'
+
+table_task.settings_form:
+  path: '/table-task'
+  defaults:
+    _title: 'table_task settings'
+    _form: 'Drupal\table_task\Form\SettingsForm'
+  requirements:
+    _permission: 'administer table_task configuration'

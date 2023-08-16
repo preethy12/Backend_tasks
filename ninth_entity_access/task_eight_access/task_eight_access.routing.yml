@@ -1,0 +1,7 @@
+task_eight_access.settings_form:
+  path: '/task-eight-access'
+  defaults:
+    _title: 'task_eight_access settings'
+    _form: 'Drupal\task_eight_access\Form\SettingsForm'
+  requirements:
+    _permission: 'administer task_eight_access configuration'

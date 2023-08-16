@@ -1,0 +1,7 @@
+task_six_dropdown.settings_form:
+  path: '/task-six-dropdown'
+  defaults:
+    _title: 'task_six_dropdown settings'
+    _form: 'Drupal\task_six_dropdown\Form\SettingsForm'
+  requirements:
+    _permission: 'administer task_six_dropdown configuration'

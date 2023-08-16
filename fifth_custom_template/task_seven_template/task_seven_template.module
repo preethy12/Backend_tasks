@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Task seven template module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function task_seven_template_theme($existing, $type, $theme, $path) {
+
+  return [
+    'task_seven_template' => [
+  // Lists the variable available for the template.
+      'variables' => [
+        'title' => "",
+        'Paragraph' => "",
+        'color_code' => "",
+      ],
+    ],
+  ];
+
+}

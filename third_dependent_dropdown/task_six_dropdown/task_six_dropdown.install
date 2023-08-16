@@ -1,0 +1,249 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Task six dropdown module install.
+ */
+
+use Drupal\Core\Database\Database;
+
+/**
+ * @file
+ * Primary module hooks for Task six dropdown module install.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function task_six_dropdown_schema() {
+  $schema = [];
+  $schema['task_six_dropdown_example'] = [
+    'description' => 'Table description.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique record ID.',
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The {users}.uid of the user who created the record.',
+      ],
+      'status' => [
+        'description' => 'Boolean indicating whether this record is active.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+      ],
+      'type' => [
+        'type' => 'varchar_ascii',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Type of the record.',
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp when the record was created.',
+      ],
+      'data' => [
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+        'description' => 'The arbitrary data for the item.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'type' => ['type'],
+      'uid' => ['uid'],
+      'status' => ['status'],
+    ],
+  ];
+
+  $schema['item'] = [
+    'description' => 'electronic items table',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema['model'] = [
+    'description' => 'model table',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'item_id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Foreign key to item table',
+      ],
+      'name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'foreign keys' => [
+      'item_id' => [
+        'table' => 'item',
+        'columns' => ['item_id' => 'id'],
+      ],
+    ],
+  ];
+
+  $schema['color'] = [
+    'description' => 'color table',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'model_id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Foreign key to model table',
+      ],
+      'name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'foreign keys' => [
+      'model_id' => [
+        'table' => 'model',
+        'columns' => ['model_id' => 'id'],
+      ],
+    ],
+  ];
+  return $schema;
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Create the tables for country, state, and district.
+ */
+function task_six_dropdown_update_100409() {
+  // $connection = Database::getConnection();
+  $connection = Database::getConnection();
+  $connection->insert('item')
+    ->fields(['name'])
+    ->values(['mobile'])
+    ->values(['laptop'])
+    ->values(['tab'])
+    ->execute();
+
+  $connection->insert('model')
+    ->fields(['item_id', 'name'])
+    ->values([1, 'Moto g40'])
+    ->values([1, 'Redmi 6'])
+    ->values([1, 'Redmi note 8 pro'])
+    ->values([1, 'Redmi note 7'])
+    ->values([2, 'HP 250 G8 Notebook PC'])
+    ->values([2, 'HP Victus 16'])
+    ->values([2, 'JioBook 2023'])
+    ->values([2, 'HP Envy x360 15 (AI-powered)'])
+    ->values([2, 'HP Omen 16'])
+    ->values([1, 'Samsung A3'])
+    ->values([3, 'Xiomi pad 6'])
+    ->values([3, 'Nokia T1O'])
+    ->values([3, 'Nokia T11 tab'])
+    ->values([2, 'HP Omen Transcend 16'])
+    ->values([2, 'Apple macbook air'])
+    ->values([3, 'Galaxy Tab S4'])
+    ->values([3, 'Galaxy Tab S5e'])
+    ->values([3, 'Lenovo tab 12'])
+    ->values([1, 'Redmi 9'])
+    ->values([1, 'Redmi 7S'])
+    ->values([1, 'Redmi note 7 PRO'])
+    ->values([1, 'Samsung A3'])
+    ->values([2, 'Lenovo Slim 5 intel core'])
+    ->values([2, 'Acer One T9'])
+    ->execute();
+
+  $connection->insert('color')
+    ->fields(['model_id', 'name'])
+    ->values([1, 'black'])
+    ->values([1, 'blue'])
+    ->values([2, 'white'])
+    ->values([2, 'grey'])
+    ->values([3, 'black'])
+    ->values([3, 'white'])
+    ->values([4, 'white'])
+    ->values([4, 'green'])
+    ->values([8, 'blue'])
+    ->values([8, 'yellow'])
+    ->values([7, 'black'])
+    ->values([7, 'white'])
+    ->values([8, 'blue'])
+    ->values([5, 'black'])
+    ->values([7, 'white'])
+    ->values([8, 'yellow'])
+    ->values([9, 'black'])
+    ->values([9, 'white'])
+    ->values([10, 'blue'])
+    ->values([5, 'green'])
+    ->values([6, 'white'])
+    ->values([6, 'green'])
+    ->values([7, 'black'])
+    ->values([10, 'yellow'])
+    ->values([11, 'black'])
+    ->values([11, 'white'])
+    ->values([12, 'blue'])
+    ->values([12, 'yellow'])
+    ->values([13, 'black'])
+    ->values([13, 'white'])
+    ->values([14, 'blue'])
+    ->values([14, 'yellow'])
+    ->values([15, 'black'])
+    ->values([15, 'red'])
+    ->values([16, 'black'])
+    ->values([16, 'grey'])
+    ->values([17, 'black'])
+    ->values([17, 'blue'])
+    ->values([18, 'black'])
+    ->values([21, 'blue'])
+    ->values([21, 'Silver'])
+    ->values([18, 'blue'])
+    ->values([18, 'black'])
+    ->values([19, 'blue'])
+    ->values([19, 'red'])
+    ->values([19, 'blue'])
+    ->values([20, 'black'])
+    ->values([20, 'violet'])
+    ->values([18, 'blue'])
+    ->values([18, 'black'])
+    ->values([19, 'blue'])
+    ->values([19, 'black'])
+    ->values([19, 'blue'])
+    ->values([20, 'Silver'])
+    ->values([20, 'blue'])
+    ->values([20, 'blue'])
+
+    ->execute();
+}

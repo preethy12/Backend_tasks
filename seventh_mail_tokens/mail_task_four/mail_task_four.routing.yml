@@ -1,0 +1,7 @@
+mail_task_four.example:
+  path: '/mail-task-four/example'
+  defaults:
+    _title: 'Example'
+    _form: 'Drupal\mail_task_four\Form\ExampleForm'
+  requirements:
+    _permission: 'access content'

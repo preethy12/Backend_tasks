@@ -1,0 +1,5 @@
+services:
+  task_five_events.event_subscriber:
+    class: Drupal\task_five_events\EventSubscriber\HeadersManagerResponseSubscriber
+    tags:
+      - { name: event_subscriber }

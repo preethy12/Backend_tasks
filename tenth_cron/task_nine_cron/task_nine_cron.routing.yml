@@ -1,0 +1,7 @@
+mail_task_four.example:
+  path: '/task-nine-cron/example'
+  defaults:
+    _title: 'Example'
+    _form: 'Drupal\task_nine_cron\Form\SettingsForm'
+  requirements:
+    _permission: 'access content'

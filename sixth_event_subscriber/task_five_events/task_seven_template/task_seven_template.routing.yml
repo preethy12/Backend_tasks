@@ -1,0 +1,15 @@
+task_seven_template.example:
+  path: '/task-seven-template/example'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\task_seven_template\Controller\TaskSevenTemplateController::build'
+  requirements:
+    _permission: 'access content'
+
+task_seven_template.settings_form:
+  path: '/admin/config/system/task-seven-template'
+  defaults:
+    _title: 'task_seven_template settings'
+    _form: 'Drupal\task_seven_template\Form\SettingsForm'
+  requirements:
+    _permission: 'access content'

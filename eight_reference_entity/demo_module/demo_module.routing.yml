@@ -1,0 +1,15 @@
+demo_module.hello_world:
+  path: '/hello-world-1'
+  defaults:
+    _controller: '\Drupal\demo_module\Controller\DemoController::getNodeInfo'
+    _title: 'Hello World'
+  requirements:
+    _permission: 'access content'
+
+demo_module.hello_world_2:
+  path: '/hello-world-2'
+  defaults:
+    _controller: '\Drupal\demo_module\Controller\DemoController2::getNodeInfo'
+    _title: 'Hello World2'
+  requirements:
+    _permission: 'access content'

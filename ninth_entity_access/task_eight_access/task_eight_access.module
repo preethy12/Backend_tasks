@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * This is the hook for for tak_eight_access.
+ */
+
+/**
+ * Implements hook_node_access().
+ */
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Get the list of allowed roles and content types from the configuration.
+ */
+function task_eight_access_node_access(EntityInterface $node, $op, AccountInterface $account) {
+  // Get the list of allowed roles and content types from the configuration.
+  $config = \Drupal::config('task_eight_access.settings');
+  $allowed_roles = $config->get('roles');
+  print_r($allowed_roles);
+  $allowed_content_types = $config->get('content_types');
+
+  // Check if the operation is 'view'.
+  if ($op == 'view') {
+    // Get the roles of the user.
+    $user_roles = $account->getRoles();
+    // print_r($user_roles);
+    // Check if the user has any allowed roles and if the node's content type is allowed.
+    if (!empty(array_intersect($allowed_roles, $user_roles)) && in_array($node->bundle(), $allowed_content_types)) {
+      return AccessResult::allowed();
+    }
+  }
+
+  // Return access denied for other cases.
+  return AccessResult::forbidden();
+}

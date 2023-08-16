@@ -1,0 +1,5 @@
+name: 'Task Five Events'
+type: module
+description: 'This is about event subscriber'
+package: Custom
+core_version_requirement: ^10

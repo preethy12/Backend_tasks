@@ -42,7 +42,7 @@ class DemoController extends ControllerBase {
    * Callback for the /demo_module/{node} route.
    */
   public function getNodeInfo() {
-    $node = 1;
+    $node = 7;
     $node_entity = $this->entityTypeManager
       ->getStorage('node')
       ->load($node);

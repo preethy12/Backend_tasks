@@ -62,7 +62,6 @@ class TaskTenFormatter extends FormatterBase {
         '#markup' => '<p>' . $concatinate . $value . '</p>',
       ];
     }
-
     return $elements;
   }
 

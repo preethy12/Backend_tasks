@@ -1,0 +1,7 @@
+thirteen_checkbox.example:
+  path: '/thirteen-checkbox/example'
+  defaults:
+    _title: 'Example'
+    _form: 'Drupal\thirteen_checkbox\Form\ExampleForm'
+  requirements:
+    _permission: 'access content'

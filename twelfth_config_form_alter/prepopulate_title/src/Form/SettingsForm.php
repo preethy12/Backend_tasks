@@ -3,6 +3,7 @@
 namespace Drupal\prepopulate_title\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -23,31 +24,42 @@ class SettingsForm extends ConfigFormBase {
   protected $messenger;
 
   /**
-   * MyModuleService constructor.
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * SettingsForm constructor.
    *
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The database connection.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    */
-  public function __construct(MessengerInterface $messenger, ConfigFactoryInterface $config_factory) {
+  public function __construct(MessengerInterface $messenger, ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager) {
     $this->messenger = $messenger;
+    $this->entityTypeManager = $entity_type_manager;
     parent::__construct($config_factory);
   }
 
   /**
-   * Create a new instance of MyModuleService.
+   * Create a new instance of the SettingsForm.
    *
    * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
    *   The service container.
    *
    * @return static
-   *   A new instance of MyModuleService.
+   *   A new instance of the SettingsForm.
    */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('messenger'),
-      $container->get('config.factory')
+      $container->get('config.factory'),
+      $container->get('entity_type.manager')
     );
   }
 
@@ -73,7 +85,7 @@ class SettingsForm extends ConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config(static::CONFIGNAME);
     $tags_reference = $config->get('tags_reference');
-    $vocabulary = $this->entityTypeManager()->getStorage('taxonomy_term')->load($tags_reference);
+    $vocabulary = $this->entityTypeManager->getStorage('taxonomy_term')->load($tags_reference);
 
     $form['title'] = [
       '#type' => 'textfield',
@@ -104,7 +116,6 @@ class SettingsForm extends ConfigFormBase {
       ->set('advanced', $form_state->getValue('advanced'))
       ->set('tags_reference', $form_state->getValue('tags_reference'))
       ->save();
-    // $this->messenger->addStatus($this->t('the configuration options have been saved'));
     parent::submitForm($form, $form_state);
   }
 

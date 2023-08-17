@@ -1,36 +1,58 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Drupal\mail_task_four\Form;
 
-// Namespace.
-// Using base classes.
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class creation.
+ * This is the Form.
  */
 class ExampleForm extends ConfigFormBase {
 
-  // It gives form id.
-  const RESULT = "ExampleForm.settings";
+  const RESULT = 'ExampleForm.settings';
 
   /**
-   * To get form id.
+   * The token service.
+   *
+   * @var \Drupal\Core\Utility\Token
    */
-  public function getFormId() {
-    return "ExampleForm_settings";
+  protected $token;
+
+  /**
+   * Constructs an ExampleForm object.
+   *
+   * @param \Drupal\Core\Utility\Token $token
+   *   The token service.
+   */
+  public function __construct(Token $token) {
+    $this->token = $token;
   }
 
   /**
-   * To get editable names.
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('token')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getFormId() {
+    return 'ExampleForm_settings';
+  }
+
+  /**
+   * {@inheritdoc}
    */
   protected function getEditableConfigNames() {
-    // To get names.
     return [
-    // Static result.
       static::RESULT,
     ];
   }
@@ -42,18 +64,17 @@ class ExampleForm extends ConfigFormBase {
     $config = $this->config(static::RESULT);
     $form['subject'] = [
       '#type' => 'textfield',
-      '#title' => 'Help Text',
-      '#default_value' => $config->get("subject"),
-
+      '#title' => $this->t('Help Text'),
+      '#default_value' => $config->get('subject'),
     ];
     $form['text_area'] = [
       '#type' => 'textarea',
-      '#title' => 'Email Content',
+      '#title' => $this->t('Email Content'),
       '#default_value' => $config->get('text_area'),
     ];
 
     // Token support.
-    if (\Drupal::moduleHandler()->moduleExists('token')) {
+    if ($this->moduleHandler->moduleExists('token')) {
       $form['tokens'] = [
         '#title' => $this->t('Tokens'),
         '#type' => 'container',
@@ -63,7 +84,6 @@ class ExampleForm extends ConfigFormBase {
         '#token_types' => [
           'node',
         ],
-            // '#token_types' => 'all'
         '#global_types' => FALSE,
         '#dialog' => TRUE,
       ];
@@ -73,11 +93,10 @@ class ExampleForm extends ConfigFormBase {
   }
 
   /**
-   * Submit form.
+   * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Save the subject and text area values.
-    $config = $this->configFactory()->getEditable(static::RESULT);
+    $config = $this->configFactory->getEditable(static::RESULT);
     $config->set('subject', $form_state->getValue('subject'));
     $config->set('text_area', $form_state->getValue('text_area'));
     $config->save();

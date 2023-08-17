@@ -17,7 +17,6 @@ function task_nine_cron_mail($key, &$message, $params) {
       $message['from'] = \Drupal::config('system.site')->get('mail');
       $message['subject'] = $params['subject'];
       $message['body'][] = $params['text_area'];
-
       break;
   }
 }
@@ -33,8 +32,13 @@ function task_nine_cron_cron() {
   $lastCronRun = \Drupal::state()->get('lastcronrun');
   $currentTimestamp = \Drupal::time()->getCurrentTime();
   if (empty($lastCronRun) || ($currentTimestamp - $lastCronRun) >= 1) {
-    $query = \Drupal::entityQuery('node')->condition('type', 'logs')->condition('created', $lastCronRun, '>')->accessCheck(FALSE);
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'logs')
+      ->condition('created', $lastCronRun, '>')
+      ->accessCheck(FALSE);
+
     $nids = $query->execute();
+
     foreach ($nids as $nid) {
       $node = Node::load($nid);
       $config = \Drupal::config('task_nine_cron.settings');
@@ -42,21 +46,26 @@ function task_nine_cron_cron() {
       $textTemplate = $config->get('text_area');
       // print_r($messageTemplate);
       // print_r($textTemplate);
-      // exit;.
+      // exit;
       $tokenService = \Drupal::token();
       $message = $tokenService->replace($messageTemplate, ['node' => $node], ['clear' => TRUE]);
       $text = $tokenService->replace($textTemplate, ['node' => $node], ['clear' => TRUE]);
       // print_r($message);
       // print_r($text);
-      // exit;.
-      $params = ['subject' => $message, 'text_area' => $text];
+      // exit;
+      $params = [
+        'subject' => $message,
+        'text_area' => $text,
+      ];
       $module = 'task_nine_cron';
       $key = 'log';
       $to = 'preethyray12@gmail.com';
       $langcode = \Drupal::currentUser()->getPreferredLangcode();
+
       $mailManager = \Drupal::service('plugin.manager.mail');
       $send = TRUE;
       $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+
       if ($result['result'] !== TRUE) {
         \Drupal::messenger()->addMessage(t('There was a problem sending the email.'), 'error');
       }

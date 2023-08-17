@@ -1,6 +1,0 @@
-prepopulate_title.settings_form:
-  title: 'prepopulate_title'
-  description: 'Configure prepopulate_title.'
-  parent: system.admin_config_system
-  route_name: prepopulate_title.settings_form
-  weight: 10

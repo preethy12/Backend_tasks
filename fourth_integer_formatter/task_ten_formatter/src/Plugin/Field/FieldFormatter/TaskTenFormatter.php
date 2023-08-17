@@ -23,6 +23,7 @@ class TaskTenFormatter extends FormatterBase {
    * {@inheritdoc}
    */
   public static function defaultSettings() {
+    // exit;.
     return [
       'concat' => '',
     ];
@@ -62,6 +63,7 @@ class TaskTenFormatter extends FormatterBase {
         '#markup' => '<p>' . $concatinate . $value . '</p>',
       ];
     }
+
     return $elements;
   }
 

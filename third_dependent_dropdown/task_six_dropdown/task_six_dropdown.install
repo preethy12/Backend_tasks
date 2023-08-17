@@ -97,7 +97,7 @@ function task_six_dropdown_schema() {
  *
  * Create the tables for country, state, and district.
  */
-function task_six_dropdown_update_100101() {
+function task_six_dropdown_update_100103() {
   // $connection = Database::getConnection();
   $connection = Database::getConnection();
   $connection->insert('item')

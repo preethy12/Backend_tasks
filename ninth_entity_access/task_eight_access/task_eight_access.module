@@ -2,35 +2,35 @@
 
 /**
  * @file
- * Primary module hooks for node access module.
+ * Some desc.
  */
 
 use Drupal\Core\Access\AccessResult;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\node\NodeInterface;
 
 /**
- * Implements hook_node_access().
+ * @file
+ * Primary module hooks for config_user module.
  */
-function task_eight_access_node_access(EntityInterface $node, $op, AccountInterface $account, ConfigFactoryInterface $configFactory) {
-  // Get the list of allowed roles and content types from the configuration.
-  $config = $configFactory->get('task_eight_access.settings');
-  $allowed_roles = $config->get('roles');
-  // print_r($allowed_roles);
-  $allowed_content_types = $config->get('content_types');
 
-  // Check if the operation is 'view'.
-  if ($op == 'view') {
-    // Get the roles of the user.
-    $user_roles = $account->getRoles();
-    // print_r($user_roles);
-    /* Check if the user has any allowed roles and if the node's content type is allowed.*/
-    if (!empty(array_intersect($allowed_roles, $user_roles)) && in_array($node->bundle(), $allowed_content_types)) {
-      return AccessResult::allowed();
-    }
+/**
+ * Implements hook_entity_access() for nodes.
+ */
+function task_eight_access_node_access(nodeInterface $node, $op, AccountInterface $account) {
+
+  $config = \Drupal::config('task_eight_access.settings');
+  $selectedUserId = $config->get('roles');
+  // print_r($selectedUserId);exit;
+  $selectedContentTypeId = $config->get('content_types');
+  $userRoles = $account->getRoles();
+  // print_r($userRoles[1]);exit;
+  // print_r($selectedContentTypeId);exit;
+  // print_r($account->getRoles() );print_r($node->bundle());exit;
+  if (array_intersect($selectedUserId, $userRoles)  && in_array($node->bundle(), $selectedContentTypeId)) {
+    return AccessResult::allowed();
   }
-
-  // Return access denied for other cases.
-  return AccessResult::forbidden();
+  else {
+    return AccessResult::forbidden();
+  }
 }

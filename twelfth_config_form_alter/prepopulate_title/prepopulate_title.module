@@ -9,7 +9,8 @@
  * This is hook_form_alter().
  */
 function prepopulate_title_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'node_article_form') {
+
+  if ($form_id == 'node_page_form') {
     $config = \Drupal::config('prepopulate_title.settings');
     $title = $config->get('title');
     $advanced = $config->get('advanced');

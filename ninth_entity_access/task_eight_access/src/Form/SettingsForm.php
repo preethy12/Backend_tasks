@@ -4,11 +4,30 @@ namespace Drupal\task_eight_access\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Configure Specbee assessment settings for this site.
  */
 class SettingsForm extends ConfigFormBase {
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * Constructs a SettingsForm object.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager service.
+   */
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->entityTypeManager = $entity_type_manager;
+  }
 
   /**
    * {@inheritdoc}
@@ -27,9 +46,18 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity_type.manager')
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state) {
     // Fetch available roles.
-    $roles = \Drupal::entityTypeManager()
+    $roles = $this->entityTypeManager
       ->getStorage('user_role')
       ->loadMultiple();
 
@@ -39,7 +67,7 @@ class SettingsForm extends ConfigFormBase {
     }
 
     // Fetch available content types.
-    $content_types = \Drupal::entityTypeManager()
+    $content_types = $this->entityTypeManager
       ->getStorage('node_type')
       ->loadMultiple();
 

@@ -70,14 +70,10 @@ class SettingsForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-
-  /**
-   * {@inheritdoc}
-   */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config(static::CONFIGNAME);
     $tags_reference = $config->get('tags_reference');
-    $vocabulary = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tags_reference);
+    $vocabulary = $this->entityTypeManager()->getStorage('taxonomy_term')->load($tags_reference);
 
     $form['title'] = [
       '#type' => 'textfield',

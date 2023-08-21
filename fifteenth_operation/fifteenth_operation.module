@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Implements hook_entity_operation() for nodes.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Url;
+
+/**
+ * This is used to define a custom operation for a given entity.
+ */
+function fifteenth_operation_entity_operation(EntityInterface $entity) {
+  $operations = [];
+  $operations['example'] = [
+    'title' => t('Node clone'),
+    'weight' => '100',
+    'url' => Url::fromRoute('fifteenth_operation.example', ['node' => $entity->id()]),
+  ];
+  return $operations;
+}

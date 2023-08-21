@@ -1,0 +1,11 @@
+fifteenth_operation.example:
+  path: '/node/{node}/details'
+  defaults:
+    _title: 'Example'
+    _controller: '\Drupal\fifteenth_operation\Controller\FifteenthOperationController::build'
+  requirements:
+    _permission: 'access content'
+  options:
+    parameters:
+      node:
+        type: entity:node

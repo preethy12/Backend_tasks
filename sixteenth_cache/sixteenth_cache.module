@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for sixteenth_cache module.
+ */
+
+use Drupal\Core\Cache\Cache;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_entity_presave() for nodes.
+ */
+function sixteenth_cache_node_presave(NodeInterface $node) {
+  if ($node->getType() == 'log') {
+
+    $tags = 'marki:' . $node->id();
+
+    Cache::invalidateTags([$tags]);
+  }
+}

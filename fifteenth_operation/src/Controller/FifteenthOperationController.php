@@ -13,7 +13,6 @@ class FifteenthOperationController extends ControllerBase {
    * Displays the title of the node.
    */
   public function build($node) {
-    // $node = Node::load(10);
     return [
       '#markup' => $node->getTitle(),
     ];

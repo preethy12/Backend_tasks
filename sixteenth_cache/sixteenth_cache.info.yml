@@ -1,0 +1,5 @@
+name: 'sixteenth_cache'
+type: module
+description: 'this is cache task'
+package: Custom
+core_version_requirement: ^10

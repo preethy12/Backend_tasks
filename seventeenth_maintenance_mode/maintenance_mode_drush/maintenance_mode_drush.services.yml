@@ -1,0 +1,6 @@
+services:
+  maintenance_mode_drush.services.commands:
+    class: Drupal\maintenance_mode_drush\Commands\CustomTask
+    tags:
+      - { name: drush.command }
+    arguments: ['@messenger', '@state']

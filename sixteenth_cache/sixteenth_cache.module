@@ -14,7 +14,7 @@ use Drupal\node\NodeInterface;
 function sixteenth_cache_node_presave(NodeInterface $node) {
   if ($node->getType() == 'log') {
 
-    $tags = 'marki:' . $node->id();
+    $tags = 'markone' . $node->id();
 
     Cache::invalidateTags([$tags]);
   }

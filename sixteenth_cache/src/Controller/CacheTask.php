@@ -27,9 +27,7 @@ class CacheTask extends ControllerBase {
     $node = Node::load($nid);
     $title = $node->getTitle();
     $markone = [
-      // '#title' => $node->get('title')->value,
       '#markup' => $title,
-      // ...
     ];
 
     // Set the cache so we don't need to do this work again until $node changes.

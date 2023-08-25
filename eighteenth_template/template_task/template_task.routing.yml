@@ -1,0 +1,7 @@
+template_task.settings_form:
+  path: '/admin/config/system/template-task'
+  defaults:
+    _title: 'template_task settings'
+    _form: 'Drupal\template_task\Form\SettingsForm'
+  requirements:
+    _permission: 'administer template_task configuration'

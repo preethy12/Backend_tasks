@@ -1,0 +1,12 @@
+# Schema for the configuration files of the template_task module.
+template_task.settings:
+  type: config_object
+  label: 'template_task settings'
+  mapping:
+    example:
+      type: string
+      label: 'Example'
+content_types:
+  article: 1
+  page: 0
+  custom_content_type: 1

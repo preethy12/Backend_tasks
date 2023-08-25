@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for theme suggesstions  node alter module.
+ */
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function template_task_theme_suggestions_node_alter(array &$suggestions, array $variables) {
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    // Get the selected content types from the configuration form.
+    $config = \Drupal::config('template_task.settings');
+    $selectedContentTypes = $config->get('content_types') ?? [];
+    // Check if the current node's content type is in the selected list.
+    if (in_array($node->getType(), $selectedContentTypes)) {
+      // Add a custom theme suggestion for the selected content types.
+      $suggestions[] = 'node__custom';
+    }
+  }
+}
